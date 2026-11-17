@@ -240,14 +240,12 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
     <button class="btn" id="btnShare" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg><span class="t">Copiar enlace con mis datos</span></button>
     <button class="btn ghost" id="btnSettings" type="button" aria-expanded="false" aria-controls="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg><span class="t">Criterios</span></button>
     <span class="spacer"></span>
-    <span class="saved" id="saved" aria-live="polite"><i></i>Guardado<span class="long">&nbsp;en este dispositivo</span></span>
+    <span class="saved" id="saved" aria-live="polite"><i></i><span>Guardado<span class="long"> en este dispositivo</span></span></span>
     <div class="menu" id="menu">
       <button class="icon" id="btnMenu" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Más opciones"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
       <div class="menu-list" role="menu">
         <button type="button" role="menuitem" data-act="clearGrades">Borrar las notas que puse</button>
-        <button type="button" role="menuitem" data-act="blank">Empezar una planilla en blanco</button>
-        <hr>
-        <button type="button" role="menuitem" data-act="example">Volver a la planilla original</button>
+        <button type="button" role="menuitem" data-act="blank">Empezar de nuevo en blanco</button>
       </div>
     </div>
   </div>
@@ -277,8 +275,8 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 
 <main class="wrap">
   <div class="summary" aria-label="Resumen">
-    <div class="stat"><b id="sProj">0</b><span>proyectos</span></div>
-    <div class="stat"><b id="sPeople">0</b><span>integrantes</span></div>
+    <div class="stat"><b id="sProj">0</b><span id="lProj">proyectos</span></div>
+    <div class="stat"><b id="sPeople">0</b><span id="lPeople">integrantes</span></div>
     <div class="stat"><b id="sDone">0</b><span>con nota de defensa</span></div>
     <div class="stat"><b id="sAvg">–</b><span>promedio general</span></div>
   </div>
@@ -293,7 +291,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 <script>
 (function(){
 "use strict";
-var KEY = "defensa-proyectos-v1";
+var KEY = "defensa-blanco-v2";
 var COLORS = ["#1F5FA8","#1E7A4C","#B35C00","#7A3FA8","#0E7C86","#B3261E","#5B6B2E","#A8336E"];
 var CRIT = [
   {k:"proyecto", t:"Proyecto"},
@@ -308,23 +306,13 @@ function proyecto(n, nota, nombres){ return {id:uid(), nombre:n||"", nota:nota==
 
 function ejemplo(){
   return {
-    meta:{curso:"3°MB nocturno · Gestión y Administración", institucion:"Escuela Superior de Comercio Villa Muñoz", uc:"Software de Datos", fecha:"", evaluador:""},
+    meta:{curso:"", institucion:"", uc:"", fecha:"", evaluador:""},
     otroLabel:"Otro",
     incluir:{proyecto:true, defensa:true, anio:true, otro:true},
-    proyectos:[
-      proyecto("Ruta Verde", 10, ["Yamila Bardallo","Thiago Guedes","Verónica Airaudo","Mariana Maciel"]),
-      proyecto("Minuto Cero", 9, ["Caroline Castellano","Melanie Dornes"]),
-      proyecto("Más que Papel", 9, ["Ashley Martínez","Paula Mombrigadez"]),
-      proyecto("GreenMove", 9, ["Ariadna Rivero","Lurdes Amado","Virginia Djellatian"])
-    ]
+    proyectos:[ proyecto("", "", ["",""]) ]
   };
 }
-function enBlanco(){
-  var s = ejemplo();
-  s.meta = {curso:"", institucion:"", uc:"", fecha:"", evaluador:""};
-  s.proyectos = [proyecto("", "", ["",""])];
-  return s;
-}
+function enBlanco(){ return ejemplo(); }
 
 /* ---------- guardado ---------- */
 var state;
@@ -357,7 +345,7 @@ function save(){
 }
 function setSaved(ok){
   var el = document.getElementById("saved");
-  el.innerHTML = ok ? '<i></i>Guardado<span class="long">&nbsp;en este dispositivo</span>' : '<i style="background:var(--bad)"></i>No se pudo guardar: descargá una copia';
+  el.innerHTML = ok ? '<i></i><span>Guardado<span class="long"> en este dispositivo</span></span>' : '<i style="background:var(--bad)"></i>No se pudo guardar: descargá una copia';
 }
 
 /* ---------- números ---------- */
@@ -473,6 +461,8 @@ function refresh(){
   });
   document.getElementById("sProj").textContent = state.proyectos.length;
   document.getElementById("sPeople").textContent = people;
+  document.getElementById("lProj").textContent = state.proyectos.length===1 ? "proyecto" : "proyectos";
+  document.getElementById("lPeople").textContent = people===1 ? "integrante" : "integrantes";
   document.getElementById("sDone").textContent = done+" de "+people;
   document.getElementById("sAvg").textContent = all.length ? fmt(Math.round(all.reduce(function(a,b){return a+b;},0)/all.length*100)/100) : "–";
   document.title = docTitle();
@@ -578,7 +568,7 @@ var toastT;
 function toast(msg){ var t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){t.classList.remove("show");},2600); }
 
 /* ---------- fotos y videos (IndexedDB) ---------- */
-var DBN = "defensa-proyectos-media", dbp = null, urls = {}, blobs = {};
+var DBN = "defensa-blanco-media", dbp = null, urls = {}, blobs = {};
 function db(){
   if(dbp) return dbp;
   dbp = new Promise(function(res, rej){
