@@ -64,6 +64,13 @@ button{cursor:pointer}
 .txt{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff}
 .txt:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
 .checks{display:flex;flex-wrap:wrap;gap:8px}
+.crit-list{display:grid;gap:8px;max-width:640px}
+.crit{display:grid;grid-template-columns:auto 1fr 40px;gap:10px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:6px 6px 6px 12px;background:#fff}
+.crit .inc{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--grey);white-space:nowrap}
+.crit .inc input{width:18px;height:18px;accent-color:var(--blue)}
+.crit .txt{font-weight:600}
+.crit .tag{font-size:12px;color:var(--muted);text-align:center}
+.crits{display:contents}
 .chk{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:15px;background:#fff}
 .chk input{width:17px;height:17px;accent-color:var(--blue)}
 .hint{font-size:13px;color:var(--muted);margin:8px 0 0}
@@ -152,6 +159,15 @@ button{cursor:pointer}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40px}
 
+/* Muchos criterios */
+.project.many .cols{display:none}
+.project.many .row{grid-template-columns:minmax(170px,1.3fr) minmax(0,3fr) 92px 40px}
+.project.many .crits{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;align-items:end}
+.project.many .lbl{display:block;text-align:center}
+.project.many .name .lbl{display:none}
+.project.many .avgcell{align-self:end;padding-bottom:4px}
+.project.many .del{padding-top:0}
+
 /* Celular */
 @media (max-width:760px){
   .wrap{padding:0 14px}
@@ -161,11 +177,12 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   .p-name{grid-column:1/-1}
   .p-avg{text-align:right}
   .cols{display:none}
-  .row{grid-template-columns:repeat(var(--n,3),1fr) 40px}
-  .row .name{grid-column:1/-2}
-  .row .avgcell{grid-column:1/-2;display:flex;align-items:center;gap:10px}
+  .row{grid-template-columns:1fr 40px}
+  .row .name{grid-column:1/2}
+  .row .crits{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;grid-column:1/-1;align-items:end}
+  .row .avgcell{grid-column:1/-1;display:flex;align-items:center;gap:10px}
   .row .avgcell .lbl{display:inline;margin:0}
-  .row .del{grid-row:1;grid-column:-2/-1}
+  .row .del{grid-row:1;grid-column:2/3}
   .lbl{display:block;text-align:center}
   .name .lbl{text-align:left}
   .bar-in .btn .t{display:none}
@@ -206,10 +223,14 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   .vid-note{display:block;padding:8px;font-size:9pt;height:105px;background:#f1f3f5}
   .firma div{flex:1;border-top:1px solid #000;padding-top:4px;font-size:10pt}
   .obs.vacia{display:none}
-  .cols{display:grid!important;break-after:avoid}
+  .project:not(.many) .cols{display:grid!important;break-after:avoid}
   .p-head{break-after:avoid}
-  .row{grid-template-columns:minmax(170px,1.7fr) repeat(var(--n,3),minmax(78px,.7fr)) 92px!important}
-  .lbl{display:none!important}
+  .project:not(.many) .row{grid-template-columns:minmax(170px,1.7fr) repeat(var(--n,3),minmax(78px,.7fr)) 92px!important}
+  .project:not(.many) .lbl{display:none!important}
+  .project:not(.many) .crits{display:contents!important}
+  .project.many .row{grid-template-columns:minmax(150px,1.3fr) minmax(0,3fr) 80px!important}
+  .project.many .crits{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(80px,1fr))!important;grid-column:auto!important}
+  .project.many .avgcell .lbl{display:none!important}
   .row .name,.row .avgcell{grid-column:auto!important}
   .row .avgcell{display:block!important}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -252,18 +273,10 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 
   <section class="settings" id="settings" aria-labelledby="setTitle">
     <h2 id="setTitle">Criterios de evaluación</h2>
-    <div class="set-grid">
-      <div>
-        <label class="f" for="otroLabel">Nombre del criterio adicional</label>
-        <input class="txt" id="otroLabel" maxlength="40" placeholder="Otro">
-        <p class="hint">Reemplaza «Otro» por lo que quieras evaluar, por ejemplo «Presentación oral».</p>
-      </div>
-      <div>
-        <span class="f" style="display:block;font-size:13px;color:var(--muted);margin-bottom:6px">Qué se promedia</span>
-        <div class="checks" id="checks"></div>
-        <p class="hint">El promedio de cada integrante usa solo los criterios marcados que tengan nota. Un casillero vacío no cuenta.</p>
-      </div>
-    </div>
+    <p class="hint" style="margin:0 0 12px">Cambiá el nombre de cada criterio escribiendo encima, agregá todos los que necesites y marcá cuáles entran en el promedio.</p>
+    <div class="crit-list" id="critList"></div>
+    <button class="btn" type="button" id="addCrit" style="margin-top:10px">+ Agregar criterio</button>
+    <p class="hint">El promedio de cada integrante usa solo los criterios marcados que tengan nota. Un casillero vacío no cuenta.</p>
   </section>
 
   <div class="notice" id="notice" role="status">
@@ -277,7 +290,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
   <div class="summary" aria-label="Resumen">
     <div class="stat"><b id="sProj">0</b><span id="lProj">proyectos</span></div>
     <div class="stat"><b id="sPeople">0</b><span id="lPeople">integrantes</span></div>
-    <div class="stat"><b id="sDone">0</b><span>con nota de defensa</span></div>
+    <div class="stat"><b id="sDone">0</b><span id="lDone">con nota de defensa</span></div>
     <div class="stat"><b id="sAvg">–</b><span>promedio general</span></div>
   </div>
   <div id="projects"></div>
@@ -293,26 +306,27 @@ footer{color:var(--muted);font-size:13px;text-align:center;padding:10px 20px 40p
 "use strict";
 var KEY = "defensa-blanco-v2";
 var COLORS = ["#1F5FA8","#1E7A4C","#B35C00","#7A3FA8","#0E7C86","#B3261E","#5B6B2E","#A8336E"];
-var CRIT = [
-  {k:"proyecto", t:"Proyecto"},
-  {k:"defensa",  t:"Defensa"},
-  {k:"anio",     t:"Año"},
-  {k:"otro",     t:"Otro"}
-];
-
+var PRESET = null;
 function uid(){ return Math.random().toString(36).slice(2,9); }
-function persona(n){ return {id:uid(), nombre:n||"", defensa:"", anio:"", otro:"", obs:""}; }
+function persona(n){ return {id:uid(), nombre:n||"", notas:{}, obs:""}; }
+function critBase(){ return [{id:"defensa", nombre:"Defensa", incluir:true, fijo:true}, {id:"anio", nombre:"Año", incluir:true, fijo:true}]; }
 function proyecto(n, nota, nombres){ return {id:uid(), nombre:n||"", nota:nota==null?"":String(nota), integrantes:(nombres||[""]).map(persona), media:[]}; }
 
 function ejemplo(){
+  var P = PRESET || {meta:{}, proyectos:[["", "", ["",""]]]};
   return {
-    meta:{curso:"", institucion:"", uc:"", fecha:"", evaluador:""},
-    otroLabel:"Otro",
-    incluir:{proyecto:true, defensa:true, anio:true, otro:true},
-    proyectos:[ proyecto("", "", ["",""]) ]
+    meta:Object.assign({curso:"", institucion:"", uc:"", fecha:"", evaluador:""}, P.meta),
+    criterioProyecto:{nombre:"Proyecto", incluir:true},
+    criterios:critBase(),
+    proyectos:P.proyectos.map(function(x){ return proyecto(x[0], x[1], x[2]); })
   };
 }
-function enBlanco(){ return ejemplo(); }
+function enBlanco(){
+  var s = ejemplo();
+  s.meta = {curso:"", institucion:"", uc:"", fecha:"", evaluador:""};
+  s.proyectos = [proyecto("", "", ["",""])];
+  return s;
+}
 
 /* ---------- guardado ---------- */
 var state;
@@ -324,14 +338,30 @@ function normal(s){
   var b = ejemplo();
   if(!s || typeof s!=="object") return b;
   s.meta = Object.assign({}, b.meta, s.meta||{});
-  s.otroLabel = typeof s.otroLabel==="string" ? s.otroLabel : "Otro";
-  s.incluir = Object.assign({}, b.incluir, s.incluir||{});
+  var inc = s.incluir || {};
+  if(!s.criterioProyecto) s.criterioProyecto = {nombre:"Proyecto", incluir: inc.proyecto!==false};
+  s.criterioProyecto.nombre = String(s.criterioProyecto.nombre||"Proyecto");
+  s.criterioProyecto.incluir = s.criterioProyecto.incluir!==false;
+  var viejo = !Array.isArray(s.criterios);
+  if(viejo){
+    s.criterios = critBase();
+    s.criterios[0].incluir = inc.defensa!==false; s.criterios[1].incluir = inc.anio!==false;
+    var usaOtro = (s.otroLabel && s.otroLabel!=="Otro") || (s.proyectos||[]).some(function(p){ return (p.integrantes||[]).some(function(m){ return m.otro; }); });
+    if(usaOtro) s.criterios.push({id:"otro", nombre:s.otroLabel||"Otro", incluir:inc.otro!==false});
+  }
+  s.criterios = s.criterios.filter(function(c){ return c && c.id; }).map(function(c){ return {id:String(c.id), nombre:String(c.nombre||""), incluir:c.incluir!==false, fijo:!!c.fijo}; });
+  delete s.otroLabel; delete s.incluir;
   if(!Array.isArray(s.proyectos)) s.proyectos = [];
   s.proyectos.forEach(function(p){
     p.id = p.id||uid(); p.nombre = p.nombre||""; p.nota = p.nota==null?"":String(p.nota);
     if(!Array.isArray(p.integrantes)) p.integrantes = [];
     if(!Array.isArray(p.media)) p.media = [];
-    p.integrantes.forEach(function(m){ m.id=m.id||uid(); ["nombre","defensa","anio","otro","obs"].forEach(function(k){ m[k]=m[k]==null?"":String(m[k]); }); });
+    p.integrantes.forEach(function(m){
+      m.id = m.id||uid(); m.nombre = m.nombre==null?"":String(m.nombre); m.obs = m.obs==null?"":String(m.obs);
+      if(!m.notas || typeof m.notas!=="object") m.notas = {};
+      ["defensa","anio","otro"].forEach(function(k){ if(m[k]!=null){ if(m[k]!=="") m.notas[k] = String(m[k]); delete m[k]; } });
+      Object.keys(m.notas).forEach(function(k){ m.notas[k] = m.notas[k]==null?"":String(m.notas[k]); });
+    });
   });
   return s;
 }
@@ -357,13 +387,18 @@ function parse(v){
   return {n:n};
 }
 function fmt(n){ return n==null ? "–" : n.toLocaleString("es-UY",{maximumFractionDigits:2}); }
-function label(k){ return k==="otro" ? (state.otroLabel.trim()||"Otro") : CRIT.filter(function(c){return c.k===k;})[0].t; }
+function crit(id){ return state.criterios.filter(function(c){ return c.id===id; })[0]; }
+function label(id){
+  if(id==="proyecto") return state.criterioProyecto.nombre.trim() || "Proyecto";
+  var c = crit(id); return c ? (c.nombre.trim() || "Sin nombre") : "";
+}
+function projHead(){ var n = label("proyecto"); return n==="Proyecto" ? "Nota del proyecto" : "Nota: "+n; }
 function memberAvg(p, m){
   var vals = [];
-  CRIT.forEach(function(c){
-    if(!state.incluir[c.k]) return;
-    var r = parse(c.k==="proyecto" ? p.nota : m[c.k]);
-    if(r.n!=null) vals.push(r.n);
+  if(state.criterioProyecto.incluir){ var r = parse(p.nota); if(r.n!=null) vals.push(r.n); }
+  state.criterios.forEach(function(c){
+    if(!c.incluir) return;
+    var r = parse(m.notas[c.id]); if(r.n!=null) vals.push(r.n);
   });
   if(!vals.length) return null;
   return Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*100)/100;
@@ -378,12 +413,11 @@ function tone(n){ return n==null ? "" : n>=9 ? "hi" : n>=6 ? "mid" : "lo"; }
 var $projects = document.getElementById("projects");
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 var ICON_DEL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
-function memberCrit(){ return ["defensa","anio","otro"]; }
+function memberCrit(){ return state.criterios.map(function(c){ return c.id; }); }
 
 function render(){
   document.querySelectorAll("[data-meta]").forEach(function(i){ i.value = state.meta[i.dataset.meta]||""; });
-  document.getElementById("otroLabel").value = state.otroLabel==="Otro" ? "" : state.otroLabel;
-  renderChecks();
+  renderCrits();
   var n = memberCrit().length;
   $projects.innerHTML = state.proyectos.map(function(p, i){
     var color = COLORS[i % COLORS.length];
@@ -391,19 +425,20 @@ function render(){
       return '<div class="member" data-m="'+m.id+'">'+
         '<div class="row">'+
           '<div class="name"><span class="lbl">Integrante</span><input aria-label="Nombre del integrante" data-f="nombre" value="'+esc(m.nombre)+'" placeholder="Nombre y apellido"></div>'+
-          memberCrit().map(function(k){
-            return '<div><span class="lbl" data-lbl="'+k+'">'+esc(label(k))+'</span><input class="num'+(state.incluir[k]?'':' off')+'" inputmode="decimal" autocomplete="off" data-f="'+k+'" data-aria="'+k+'" aria-label="'+esc(label(k))+' de '+esc(m.nombre||"integrante")+'" value="'+esc(m[k])+'" placeholder="–"></div>';
-          }).join("")+
+          '<div class="crits">'+memberCrit().map(function(k){
+            var on = crit(k).incluir;
+            return '<div><span class="lbl" data-lbl="'+k+'">'+esc(label(k))+'</span><input class="num'+(on?'':' off')+'" inputmode="decimal" autocomplete="off" data-c="'+k+'" aria-label="'+esc(label(k))+' de '+esc(m.nombre||"integrante")+'" value="'+esc(m.notas[k]||"")+'" placeholder="–"></div>';
+          }).join("")+'</div>'+
           '<div class="avgcell"><span class="lbl">Promedio</span><span class="avg" data-avg></span></div>'+
           '<button class="icon del" type="button" data-act="delMember" aria-label="Quitar a '+esc(m.nombre||"este integrante")+'" title="Quitar integrante">'+ICON_DEL+'</button>'+
         '</div>'+
         '<div class="obs'+(m.obs.trim()?'':' vacia')+'"><textarea rows="1" data-f="obs" aria-label="Observaciones sobre '+esc(m.nombre||"el integrante")+'" placeholder="Observaciones (opcional)">'+esc(m.obs)+'</textarea><div class="obs-p">'+esc(m.obs)+'</div></div>'+
       '</div>';
     }).join("");
-    return '<section class="project" data-p="'+p.id+'" style="--c:'+color+';--n:'+n+'">'+
+    return '<section class="project'+(n>4?' many':'')+'" data-p="'+p.id+'" style="--c:'+color+';--n:'+n+'">'+
       '<div class="p-head">'+
         '<div class="p-name"><label for="pn-'+p.id+'">Nombre del proyecto</label><input id="pn-'+p.id+'" data-pf="nombre" value="'+esc(p.nombre)+'" placeholder="Nombre del proyecto"></div>'+
-        '<div class="p-grade"><label for="pg-'+p.id+'">Nota del proyecto</label><input id="pg-'+p.id+'" class="num'+(state.incluir.proyecto?'':' off')+'" inputmode="decimal" autocomplete="off" data-pf="nota" value="'+esc(p.nota)+'" placeholder="–"></div>'+
+        '<div class="p-grade"><label for="pg-'+p.id+'" data-lbl="proyecto-head">'+esc(projHead())+'</label><input id="pg-'+p.id+'" class="num'+(state.criterioProyecto.incluir?'':' off')+'" inputmode="decimal" autocomplete="off" data-pf="nota" value="'+esc(p.nota)+'" placeholder="–"></div>'+
         '<div class="p-avg"><span>Promedio del proyecto</span><b data-pavg>–</b></div>'+
       '</div>'+
       '<div class="cols" aria-hidden="true"><div>Integrante</div>'+memberCrit().map(function(k){return '<div class="c" data-lbl="'+k+'">'+esc(label(k))+'</div>';}).join("")+'<div class="c">Promedio</div><div></div></div>'+
@@ -439,10 +474,18 @@ function mediaHtml(p){
     (list.length ? '<div class="m-grid">'+items+'</div>' : '<p class="m-empty">Podés sumar fotos o videos de la defensa. Se descargan junto con el PDF o el Excel.</p>')+
   '</div>';
 }
-function renderChecks(){
-  document.getElementById("checks").innerHTML = CRIT.map(function(c){
-    return '<label class="chk"><input type="checkbox" data-inc="'+c.k+'"'+(state.incluir[c.k]?' checked':'')+'> '+esc(label(c.k))+'</label>';
-  }).join("");
+var ICON_TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
+function critRow(id, nombre, incluir, borrable, ph){
+  return '<div class="crit" data-crit="'+id+'">'+
+    '<label class="inc"><input type="checkbox" data-inc="'+id+'"'+(incluir?' checked':'')+'> Promedia</label>'+
+    '<input class="txt" data-cname="'+id+'" maxlength="40" value="'+esc(nombre)+'" placeholder="'+esc(ph)+'" aria-label="Nombre del criterio">'+
+    (borrable ? '<button class="icon" type="button" data-act="delCrit" aria-label="Quitar el criterio '+esc(nombre||"")+'" title="Quitar criterio">'+ICON_TRASH+'</button>' : '<span class="tag" title="Este criterio no se puede quitar">fijo</span>')+
+  '</div>';
+}
+function renderCrits(){
+  document.getElementById("critList").innerHTML =
+    critRow("proyecto", state.criterioProyecto.nombre, state.criterioProyecto.incluir, false, "Proyecto (nota del grupo)") +
+    state.criterios.map(function(c){ return critRow(c.id, c.nombre, c.incluir, !c.fijo, "Nombre del criterio"); }).join("");
 }
 function refresh(){
   var people=0, done=0, all=[];
@@ -452,8 +495,8 @@ function refresh(){
     p.integrantes.forEach(function(m){
       people++;
       var el = sec.querySelector('[data-m="'+m.id+'"]'); if(!el) return;
-      if(parse(m.defensa).n!=null) done++;
-      memberCrit().forEach(function(k){ el.querySelector('[data-f="'+k+'"]').setAttribute("aria-invalid", parse(m[k]).bad?"true":"false"); });
+      if(state.criterios.length && parse(m.notas[state.criterios[0].id]).n!=null) done++;
+      memberCrit().forEach(function(k){ var i = el.querySelector('[data-c="'+k+'"]'); if(i) i.setAttribute("aria-invalid", parse(m.notas[k]).bad?"true":"false"); });
       var a = memberAvg(p,m); if(a!=null) all.push(a);
       var chip = el.querySelector("[data-avg]"); chip.textContent = fmt(a); chip.className = "avg "+tone(a);
     });
@@ -461,6 +504,7 @@ function refresh(){
   });
   document.getElementById("sProj").textContent = state.proyectos.length;
   document.getElementById("sPeople").textContent = people;
+  document.getElementById("lDone").textContent = state.criterios.length ? "con nota de "+label(state.criterios[0].id).toLowerCase() : "con notas";
   document.getElementById("lProj").textContent = state.proyectos.length===1 ? "proyecto" : "proyectos";
   document.getElementById("lPeople").textContent = people===1 ? "integrante" : "integrantes";
   document.getElementById("sDone").textContent = done+" de "+people;
@@ -469,10 +513,11 @@ function refresh(){
 }
 function autosize(t){ t.style.height="auto"; t.style.height=Math.max(38,t.scrollHeight+2)+"px"; }
 function autosizeAll(){ $projects.querySelectorAll("textarea").forEach(autosize); }
-function relabel(){
-  document.querySelectorAll('[data-lbl="otro"]').forEach(function(e){ e.textContent = label("otro"); });
-  document.querySelectorAll('[data-aria="otro"]').forEach(function(e){ e.setAttribute("aria-label", label("otro")); });
-  renderChecks();
+function relabel(id){
+  document.querySelectorAll('[data-lbl="'+id+'"]').forEach(function(e){ e.textContent = label(id); });
+  if(id==="proyecto") document.querySelectorAll('[data-lbl="proyecto-head"]').forEach(function(e){ e.textContent = projHead(); });
+  document.querySelectorAll('[data-c="'+id+'"]').forEach(function(e){ var mm = e.closest("[data-m]"); var nm = mm ? mm.querySelector('[data-f="nombre"]').value : ""; e.setAttribute("aria-label", label(id)+" de "+(nm||"integrante")); });
+  refresh();
 }
 
 /* ---------- edición ---------- */
@@ -482,17 +527,23 @@ function findM(p, el){ var s=el.closest("[data-m]"); return s && p.integrantes.f
 document.addEventListener("input", function(e){
   var t = e.target;
   if(t.dataset.meta){ state.meta[t.dataset.meta] = t.value; refresh(); save(); return; }
-  if(t.id==="otroLabel"){ state.otroLabel = t.value.trim() ? t.value : "Otro"; relabel(); save(); return; }
+  if(t.dataset.cname){
+    var id = t.dataset.cname;
+    if(id==="proyecto") state.criterioProyecto.nombre = t.value; else crit(id).nombre = t.value;
+    relabel(id); save(); return;
+  }
   var p = findP(t); if(!p) return;
   if(t.dataset.pf){ p[t.dataset.pf] = t.value; refresh(); save(); return; }
-  var m = findM(p,t); if(!m || !t.dataset.f) return;
+  var m = findM(p,t); if(!m) return;
+  if(t.dataset.c){ m.notas[t.dataset.c] = t.value; refresh(); save(); return; }
+  if(!t.dataset.f) return;
   m[t.dataset.f] = t.value;
   if(t.tagName==="TEXTAREA"){ autosize(t); t.parentNode.classList.toggle("vacia", !t.value.trim()); t.nextElementSibling.textContent = t.value; }
   refresh(); save();
 });
 document.addEventListener("change", function(e){
   var t = e.target;
-  if(t.dataset.inc){ state.incluir[t.dataset.inc] = t.checked; save(); render(); }
+  if(t.dataset.inc){ var id = t.dataset.inc; if(id==="proyecto") state.criterioProyecto.incluir = t.checked; else crit(id).incluir = t.checked; save(); render(); }
   if(t.hasAttribute && t.hasAttribute("data-files")){ var p = findP(t); var fl = Array.prototype.slice.call(t.files||[]); t.value=""; if(p && fl.length) addFiles(p, fl); }
 });
 document.addEventListener("keydown", function(e){
@@ -526,12 +577,18 @@ document.addEventListener("click", function(e){
   if(act==="addMember"){ addMember(p); }
   else if(act==="delMember"){
     var m = findM(p,b);
-    var tiene = m.nombre.trim() || m.defensa || m.anio || m.otro || m.obs.trim();
+    var tiene = m.nombre.trim() || m.obs.trim() || Object.keys(m.notas).some(function(k){ return String(m.notas[k]).trim(); });
     var go = function(){ p.integrantes = p.integrantes.filter(function(x){return x!==m;}); save(); render(); };
     tiene ? armed(b, go) : go();
   }
   else if(act==="delProject"){
     armed(b, function(){ (p.media||[]).forEach(function(m){ dropMedia(m.id); }); state.proyectos = state.proyectos.filter(function(x){return x!==p;}); save(); render(); toast("Proyecto eliminado"); }, "¿Seguro? Tocá de nuevo para eliminar");
+  }
+  else if(act==="delCrit"){
+    var row = b.closest("[data-crit]"), cid = row.dataset.crit, c = crit(cid);
+    var conNotas = state.proyectos.some(function(pp){ return pp.integrantes.some(function(mm){ return String(mm.notas[cid]||"").trim(); }); });
+    var go2 = function(){ state.criterios = state.criterios.filter(function(x){ return x.id!==cid; }); state.proyectos.forEach(function(pp){ pp.integrantes.forEach(function(mm){ delete mm.notas[cid]; }); }); save(); render(); toast("Criterio quitado"); };
+    conNotas ? armed(b, go2) : go2();
   }
   else if(act==="delMedia"){
     var fig = b.closest("[data-mid]"), mid = fig.dataset.mid;
@@ -539,7 +596,7 @@ document.addEventListener("click", function(e){
   }
   else if(act==="clearGrades"){
     armed(b, function(){
-      state.proyectos.forEach(function(p){ p.integrantes.forEach(function(m){ m.defensa=""; m.anio=""; m.otro=""; m.obs=""; }); });
+      state.proyectos.forEach(function(p){ p.integrantes.forEach(function(m){ m.notas={}; m.obs=""; }); });
       save(); render(); closeMenu(); toast("Se borraron tus notas y observaciones");
     }, "Tocá de nuevo: se borran tus notas");
   }
@@ -558,7 +615,13 @@ document.getElementById("addProject").addEventListener("click", function(){
 var btnSet = document.getElementById("btnSettings");
 btnSet.addEventListener("click", function(){
   var s = document.getElementById("settings"); var o = s.classList.toggle("open"); btnSet.setAttribute("aria-expanded", o);
-  if(o) document.getElementById("otroLabel").focus();
+  if(o){ var f = document.querySelector("#critList [data-cname]"); if(f) f.focus(); }
+});
+document.getElementById("addCrit").addEventListener("click", function(){
+  var c = {id:"c"+uid(), nombre:"", incluir:true, fijo:false};
+  state.criterios.push(c); save(); render();
+  var i = document.querySelector('[data-cname="'+c.id+'"]'); if(i){ i.focus(); }
+  toast("Escribí el nombre del nuevo criterio");
 });
 var menu = document.getElementById("menu"), btnMenu = document.getElementById("btnMenu");
 btnMenu.addEventListener("click", function(e){ e.stopPropagation(); var o = menu.classList.toggle("open"); btnMenu.setAttribute("aria-expanded", o); });
@@ -661,7 +724,8 @@ document.getElementById("btnMedia").addEventListener("click", async function(){
 function xmlEsc(s){ return String(s).replace(/[<>&"]/g,function(c){return {"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;"}[c];}).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g,""); }
 function colName(i){ var s=""; i++; while(i>0){ var r=(i-1)%26; s=String.fromCharCode(65+r)+s; i=Math.floor((i-1)/26);} return s; }
 function buildRows(){
-  var head = ["Proyecto","Integrante","Nota del proyecto","Defensa","Año",label("otro"),"Promedio","Observaciones"];
+  var cids = memberCrit();
+  var head = ["Proyecto","Integrante",projHead()].concat(cids.map(label)).concat(["Promedio","Observaciones"]);
   var rows = [];
   rows.push([{v:"Defensa de proyectos finales", s:1}]);
   var info = [];
@@ -671,7 +735,7 @@ function buildRows(){
   if(state.meta.fecha) info.push("Fecha: "+state.meta.fecha);
   if(state.meta.evaluador) info.push("Evalúa: "+state.meta.evaluador);
   rows.push([{v:info.join("  ·  ")}]);
-  var inc = CRIT.filter(function(c){return state.incluir[c.k];}).map(function(c){return label(c.k);});
+  var inc = (state.criterioProyecto.incluir ? [label("proyecto")] : []).concat(state.criterios.filter(function(c){return c.incluir;}).map(function(c){return label(c.id);}));
   rows.push([{v:"El promedio usa: "+(inc.join(", ")||"ningún criterio")+". Los casilleros vacíos no cuentan."}]);
   rows.push([]);
   rows.push(head.map(function(h){return {v:h, s:2};}));
@@ -679,7 +743,7 @@ function buildRows(){
     p.integrantes.forEach(function(m){
       var num = function(v){ var r=parse(v); return r.n!=null ? {v:r.n, s:3, n:true} : {v:"", s:3}; };
       var a = memberAvg(p,m);
-      rows.push([{v:p.nombre}, {v:m.nombre}, num(p.nota), num(m.defensa), num(m.anio), num(m.otro), a==null?{v:"",s:4}:{v:a,s:4,n:true}, {v:m.obs, s:5}]);
+      rows.push([{v:p.nombre}, {v:m.nombre}, num(p.nota)].concat(cids.map(function(k){ return num(m.notas[k]); })).concat([a==null?{v:"",s:4}:{v:a,s:4,n:true}, {v:m.obs, s:5}]));
     });
   });
   var ents = mediaEntries();
@@ -703,7 +767,9 @@ function sheetXml(rows){
     }).join("");
     out.push('<row r="'+(ri+1)+'">'+cells+'</row>');
   });
-  var widths = [22,26,12,11,11,14,11,48];
+  var nc = memberCrit().length, widths = [22,26,13];
+  for(var wi=0; wi<nc; wi++) widths.push(12);
+  widths.push(11, 48);
   return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
     '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'+
     '<sheetViews><sheetView workbookViewId="0"><pane ySplit="5" topLeftCell="A6" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'+
@@ -808,12 +874,22 @@ document.getElementById("btnXlsx").addEventListener("click", async function(){
 function b64e(str){ var b = new TextEncoder().encode(str), s=""; for(var i=0;i<b.length;i++) s+=String.fromCharCode(b[i]); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
 function b64d(s){ s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; var bin=atob(s), b=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) b[i]=bin.charCodeAt(i); return new TextDecoder().decode(b); }
 function compact(s){
-  return {m:s.meta, o:s.otroLabel, i:s.incluir, p:s.proyectos.map(function(p){ return [p.nombre, p.nota, p.integrantes.map(function(m){ return [m.nombre,m.defensa,m.anio,m.otro,m.obs]; })]; })};
+  var ids = s.criterios.map(function(c){ return c.id; });
+  return {v:2, m:s.meta, cp:[s.criterioProyecto.nombre, s.criterioProyecto.incluir?1:0],
+    c:s.criterios.map(function(c){ return [c.id, c.nombre, c.incluir?1:0, c.fijo?1:0]; }),
+    p:s.proyectos.map(function(p){ return [p.nombre, p.nota, p.integrantes.map(function(m){ return [m.nombre, m.obs, ids.map(function(k){ return m.notas[k]||""; })]; })]; })};
 }
 function expand(c){
-  return normal({meta:c.m, otroLabel:c.o, incluir:c.i, proyectos:(c.p||[]).map(function(p){
-    return {nombre:p[0], nota:p[1], integrantes:(p[2]||[]).map(function(m){ return {nombre:m[0],defensa:m[1],anio:m[2],otro:m[3],obs:m[4]}; })};
-  })});
+  if(c.v!==2){
+    return normal({meta:c.m, otroLabel:c.o, incluir:c.i, proyectos:(c.p||[]).map(function(p){
+      return {nombre:p[0], nota:p[1], integrantes:(p[2]||[]).map(function(m){ return {nombre:m[0],defensa:m[1],anio:m[2],otro:m[3],obs:m[4]}; })};
+    })});
+  }
+  var crits = (c.c||[]).map(function(x){ return {id:x[0], nombre:x[1], incluir:!!x[2], fijo:!!x[3]}; });
+  return normal({meta:c.m, criterioProyecto:{nombre:(c.cp||[])[0]||"Proyecto", incluir:!c.cp || !!c.cp[1]}, criterios:crits,
+    proyectos:(c.p||[]).map(function(p){
+      return {nombre:p[0], nota:p[1], integrantes:(p[2]||[]).map(function(m){ var n = {}; crits.forEach(function(k,i){ n[k.id] = (m[2]||[])[i]||""; }); return {nombre:m[0], obs:m[1], notas:n}; })};
+    })});
 }
 document.getElementById("btnShare").addEventListener("click", function(){
   var url = location.href.split("#")[0] + "#d=" + b64e(JSON.stringify(compact(state)));
