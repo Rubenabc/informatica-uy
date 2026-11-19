@@ -121,7 +121,7 @@ main.js-nav > .page.activa{display:block !important}
 .volver{margin:14px 0 6px;font-size:.95rem}
 .volver a{color:var(--grey);text-decoration:none}
 .volver a:hover{color:var(--blue)}
-@media(max-width:640px){nav{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;margin:0;gap:0}nav a{text-align:center;padding:10px 4px;font-size:15px}}
+nav{align-items:center}details.nav-mas{position:relative;background:none;border:0;border-radius:0;margin:0;padding:0}details.nav-mas>summary{list-style:none;display:inline-block;padding:10px 10px;min-height:44px;font-weight:600;font-size:15px;color:var(--blue);border-bottom:3px solid transparent;white-space:nowrap}details.nav-mas>summary::-webkit-details-marker{display:none}details.nav-mas>summary::after{content:"";display:inline-block;margin-left:6px;vertical-align:3px;border:5px solid transparent;border-top-color:currentColor;border-bottom:0}details.nav-mas[open]>summary::after{border-top:0;border-bottom:5px solid currentColor;vertical-align:4px}details.nav-mas.activo>summary{font-weight:700;color:var(--navy);border-bottom-color:var(--blue)}.nav-menu{position:absolute;top:100%;left:0;z-index:30;min-width:170px;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(20,48,74,.15);padding:6px 0}.nav-menu a{display:block;padding:12px 18px;border-bottom:0;border-left:3px solid transparent}.nav-menu a[aria-current="page"]{border-left-color:var(--blue);background:var(--bg)}nav a.nav-cta{margin-left:8px;padding:10px 16px;border:0;border-radius:6px;background:var(--navy);color:#fff}nav a.nav-cta:hover{background:var(--blue);color:#fff}nav a.nav-cta[aria-current="page"]{color:#fff;box-shadow:inset 0 -3px 0 var(--blue)}@media(max-width:640px){nav{display:flex;flex-wrap:nowrap;overflow:visible;margin:0;gap:0;justify-content:space-between}nav a,details.nav-mas>summary{padding:10px 8px;font-size:15px}nav a.nav-cta{margin-left:4px;padding:10px 14px}.nav-menu{left:auto;right:-60px}}
 .credenciales{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}.credenciales li{font-size:15px;font-weight:600;color:var(--navy);background:#fff;border:1px solid #DCE3EA;border-radius:8px;padding:5px 12px}@media(max-width:640px){.credenciales li{font-size:14px;padding:4px 10px}}
 .escrito .meta .lectura{color:var(--grey)}
 </style>
@@ -152,11 +152,11 @@ main.js-nav > .page.activa{display:block !important}
 <nav aria-label="Páginas">
 <a data-nav="inicio" href="#inicio">Inicio</a>
 <a data-nav="servicios" href="#servicios">Servicios</a>
+<details class="nav-mas"><summary>Más</summary><div class="nav-menu">
 <a data-nav="recursos" href="#recursos">Recursos</a>
-
 <a data-nav="escritos" href="#escritos">Escritos</a>
-<a data-nav="sobre-mi" href="#sobre-mi">Sobre mí</a>
-<a data-nav="contacto" href="#contacto">Contacto</a></nav>
+<a data-nav="sobre-mi" href="#sobre-mi">Sobre mí</a></div></details>
+<a class="nav-cta" data-nav="contacto" href="#contacto">Contacto</a></nav>
 </div>
 </header>
 <main>
@@ -750,12 +750,16 @@ main.js-nav > .page.activa{display:block !important}
     document.querySelectorAll('nav a[data-nav]').forEach(function(a){
       if(a.dataset.nav===clave){a.setAttribute('aria-current','page');}else{a.removeAttribute('aria-current');}
     });
+    var mas=document.querySelector('nav details.nav-mas');
+    if(mas){mas.classList.toggle('activo',!!mas.querySelector('a[aria-current]'));mas.open=false;}
     document.title=(sec.id!=='inicio'&&sec.dataset.title)?sec.dataset.title+' — Ruben Leal':base;
     if(desplazar){
       if(el&&el!==sec){el.scrollIntoView();}else{window.scrollTo(0,0);}
     }
   }
   document.addEventListener('click',function(e){
+    var m=document.querySelector('nav details.nav-mas');
+    if(m&&m.open&&!m.contains(e.target)){m.open=false;}
     var a=e.target.closest('a[href^="#"]');
     if(!a)return;
     var id=a.getAttribute('href').slice(1)||'inicio';
@@ -770,6 +774,7 @@ main.js-nav > .page.activa{display:block !important}
   mostrar(inicial,false);
 })();
 </script>
+<script>document.addEventListener('keydown',function(e){if(e.key==='Escape'){var m=document.querySelector('nav details.nav-mas');if(m&&m.open){m.open=false;m.querySelector('summary').focus();}}});</script>
 <script>
 (function(){var f=document.querySelector('.filtros');if(!f)return;f.hidden=false;
 var bs=f.querySelectorAll('button'),ts=document.querySelectorAll('#lista-recursos .tema');
