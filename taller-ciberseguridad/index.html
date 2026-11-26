@@ -213,11 +213,49 @@ article p,article li,article blockquote{max-width:82ch}
 .cards>*{width:auto;max-width:none;margin:0}
 }
 </style>
+<style id="marca-sitio">
+.marca{display:inline-flex;align-items:center;gap:10px;letter-spacing:0!important;text-transform:none!important;font-size:20px!important}
+.marca img{width:30px;height:30px;border-radius:8px}
+.marca b{color:#F28C28}
+</style>
+<style id="bloques-ia">
+.logros{list-style:none;margin:22px 0 8px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid #DCE3EA;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 22px}
+.logros-tit{grid-column:1/-1;margin:0;font-weight:800;color:var(--navy,#14304A);font-size:19px}
+.logros li{display:flex;gap:10px;align-items:flex-start;line-height:1.45}
+.logros svg{width:24px;height:24px;flex:none;color:var(--tc,#0E7C7B);margin-top:1px}
+.logros svg .p2,.riesgos svg .p2,.pasos-ia svg .p2{fill:#fff}
+.riesgos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}
+.riesgo{background:#fff;border:1px solid #DCE3EA;border-top:4px solid var(--rc,#E4572E);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(20,48,74,.05)}
+.riesgo svg{width:34px;height:34px;color:var(--rc,#E4572E)}
+.riesgo h3{margin:8px 0 6px;font-size:18px;color:var(--navy,#14304A)}
+.riesgo p{margin:0;color:#4A5B6C;line-height:1.5}
+.pasos-ia{list-style:none;counter-reset:p;margin:14px 0;padding:0;display:grid;gap:10px}
+.pasos-ia li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;background:#fff;border:1px solid #DCE3EA;border-radius:14px;padding:12px 16px;line-height:1.5}
+.pasos-ia li::before{content:counter(p,decimal-leading-zero);font-weight:800;font-size:14px;color:#fff;background:var(--tc,#0E7C7B);border-radius:50%;width:34px;height:34px;display:grid;place-items:center}
+.pasos-ia b{color:var(--navy,#14304A)}
+.si-no{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
+.si-no>div{background:#fff;border:1px solid #DCE3EA;border-radius:14px;padding:16px 18px}
+.si-no h3{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:18px;color:var(--navy,#14304A)}
+.si-no h3 svg{width:26px;height:26px}
+.si-no .no h3 svg{color:#C0392B}.si-no .si h3 svg{color:#1D7A45}
+.si-no ul{margin:0;padding-left:20px;line-height:1.55}
+.aviso-ia{border-left:4px solid var(--tk,#E4572E);background:#FFF7F0;border-radius:0 12px 12px 0;padding:12px 16px;margin:16px 0;line-height:1.5}
+</style>
 </head>
-<body><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="vi-cv" viewBox="0 0 24 24"><path class="p1" d="M6 2h8l5 5v15H6z"/><path class="p2" d="M9 11h7v2H9zm0 4h7v2H9zM14 2v5h5z"/></symbol><symbol id="vi-xl" viewBox="0 0 24 24"><path class="p1" d="M3 4h18v5H3z"/><path class="p2" d="M3 10h5v4H3zm6 0h5v4H9zm6 0h6v4h-6zM3 15h5v5H3zm6 0h5v5H9zm6 0h6v5h-6z"/></symbol><symbol id="vi-sec" viewBox="0 0 24 24"><path class="p1" d="M12 2l9 3.5V12c0 5.5-3.8 9-9 10-5.2-1-9-4.5-9-10V5.5z"/><path class="p2" d="M10.6 15.8l-3.4-3.4 1.6-1.6 1.8 1.8 4.6-4.6 1.6 1.6z"/></symbol><symbol id="vi-ase" viewBox="0 0 24 24"><path class="p1" d="M12 2a7 7 0 0 0-4.2 12.6c.7.6 1.2 1.4 1.2 2.4h6c0-1 .5-1.8 1.2-2.4A7 7 0 0 0 12 2z"/><path class="p2" d="M9 18h6v2H9zm1 3h4v1.5h-4z"/></symbol><symbol id="vi-cla" viewBox="0 0 24 24"><path class="p1" d="M4 4h16v11H4z"/><path class="p2" d="M2 16h20l-2 4H4zM7 7h7v2H7zm0 3h10v2H7z"/></symbol><symbol id="vi-red" viewBox="0 0 24 24"><path class="p1" d="M14.5 3.5l6 6L9 21H3v-6z"/><path class="p2" d="M3 15l6 6H3zM13 5l6 6 1.5-1.5-6-6z"/></symbol><symbol id="vi-cap" viewBox="0 0 24 24"><path class="p1" d="M12 3L1 9l11 6 9-4.9V17h2V9z"/><path class="p2" d="M5 13.2V17c0 2 3.1 4 7 4s7-2 7-4v-3.8l-7 3.8z"/></symbol><symbol id="vi-adu" viewBox="0 0 24 24"><path class="p1" d="M9 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM1 20c0-3.9 3.6-6 8-6s8 2.1 8 6z"/><path class="p2" d="M17 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm1 9c3 .4 5 2.2 5 6h-4c0-2.4-.4-4.3-1-6z"/></symbol><symbol id="vi-tal" viewBox="0 0 24 24"><path class="p1" d="M2 3h20v13H2z"/><path class="p2" d="M6 17h3l-2 5H4zm9 0h3l2 5h-3zM5 6h9v2H5zm0 4h14v2H5z"/></symbol><symbol id="vi-mat" viewBox="0 0 24 24"><path class="p1" d="M3 4c3-1 6-1 8.5 1v15C9 18 6 18 3 19z"/><path class="p2" d="M21 4c-3-1-6-1-8.5 1v15c2.5-2 5.5-2 8.5-1z"/></symbol></svg>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="ia-voz" viewBox="0 0 24 24"><rect fill="currentColor" x="8" y="2" width="8" height="13" rx="4"/><path class="p2" d="M5 11a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0zm6 8h2v3h-2z"/></symbol>
+<symbol id="ia-video" viewBox="0 0 24 24"><rect fill="currentColor" x="2" y="5" width="15" height="14" rx="2"/><path class="p2" d="m17 10 5-3v10l-5-3zM8 9l5 3-5 3z"/></symbol>
+<symbol id="ia-mail" viewBox="0 0 24 24"><path fill="currentColor" d="M2 5h20v14H2z"/><path class="p2" d="m2 5 10 8 10-8v2.5l-10 8-10-8z"/></symbol>
+<symbol id="ia-ok" viewBox="0 0 24 24"><circle fill="currentColor" cx="12" cy="12" r="10"/><path class="p2" d="m7 12.5 3.2 3.2L17.5 8.4l1.4 1.4-8.7 8.7L5.6 13.9z"/></symbol>
+<symbol id="ia-no" viewBox="0 0 24 24"><circle fill="currentColor" cx="12" cy="12" r="10"/><path class="p2" d="m8 6.6 4 4 4-4 1.4 1.4-4 4 4 4-1.4 1.4-4-4-4 4L6.6 16l4-4-4-4z"/></symbol>
+<symbol id="ia-chip" viewBox="0 0 24 24"><rect fill="currentColor" x="5" y="5" width="14" height="14" rx="3"/><path class="p2" d="M9 1h2v4H9zm4 0h2v4h-2zM9 19h2v4H9zm4 0h2v4h-2zM1 9h4v2H1zm0 4h4v2H1zm18-4h4v2h-4zm0 4h4v2h-4zM9 9h6v6H9z"/></symbol>
+<symbol id="ia-ojo" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5C6 5 2 12 2 12s4 7 10 7 10-7 10-7-4-7-10-7z"/><circle class="p2" cx="12" cy="12" r="3.5"/></symbol>
+<symbol id="ia-lapiz" viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h12v18H4z"/><path class="p2" d="M7 7h6v2H7zm0 4h6v2H7zm11.5-6 2.5 2.5-8 8L11 16l.5-3z"/></symbol>
+</svg><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="vi-cv" viewBox="0 0 24 24"><path class="p1" d="M6 2h8l5 5v15H6z"/><path class="p2" d="M9 11h7v2H9zm0 4h7v2H9zM14 2v5h5z"/></symbol><symbol id="vi-xl" viewBox="0 0 24 24"><path class="p1" d="M3 4h18v5H3z"/><path class="p2" d="M3 10h5v4H3zm6 0h5v4H9zm6 0h6v4h-6zM3 15h5v5H3zm6 0h5v5H9zm6 0h6v5h-6z"/></symbol><symbol id="vi-sec" viewBox="0 0 24 24"><path class="p1" d="M12 2l9 3.5V12c0 5.5-3.8 9-9 10-5.2-1-9-4.5-9-10V5.5z"/><path class="p2" d="M10.6 15.8l-3.4-3.4 1.6-1.6 1.8 1.8 4.6-4.6 1.6 1.6z"/></symbol><symbol id="vi-ase" viewBox="0 0 24 24"><path class="p1" d="M12 2a7 7 0 0 0-4.2 12.6c.7.6 1.2 1.4 1.2 2.4h6c0-1 .5-1.8 1.2-2.4A7 7 0 0 0 12 2z"/><path class="p2" d="M9 18h6v2H9zm1 3h4v1.5h-4z"/></symbol><symbol id="vi-cla" viewBox="0 0 24 24"><path class="p1" d="M4 4h16v11H4z"/><path class="p2" d="M2 16h20l-2 4H4zM7 7h7v2H7zm0 3h10v2H7z"/></symbol><symbol id="vi-red" viewBox="0 0 24 24"><path class="p1" d="M14.5 3.5l6 6L9 21H3v-6z"/><path class="p2" d="M3 15l6 6H3zM13 5l6 6 1.5-1.5-6-6z"/></symbol><symbol id="vi-cap" viewBox="0 0 24 24"><path class="p1" d="M12 3L1 9l11 6 9-4.9V17h2V9z"/><path class="p2" d="M5 13.2V17c0 2 3.1 4 7 4s7-2 7-4v-3.8l-7 3.8z"/></symbol><symbol id="vi-adu" viewBox="0 0 24 24"><path class="p1" d="M9 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM1 20c0-3.9 3.6-6 8-6s8 2.1 8 6z"/><path class="p2" d="M17 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm1 9c3 .4 5 2.2 5 6h-4c0-2.4-.4-4.3-1-6z"/></symbol><symbol id="vi-tal" viewBox="0 0 24 24"><path class="p1" d="M2 3h20v13H2z"/><path class="p2" d="M6 17h3l-2 5H4zm9 0h3l2 5h-3zM5 6h9v2H5zm0 4h14v2H5z"/></symbol><symbol id="vi-mat" viewBox="0 0 24 24"><path class="p1" d="M3 4c3-1 6-1 8.5 1v15C9 18 6 18 3 19z"/><path class="p2" d="M21 4c-3-1-6-1-8.5 1v15c2.5-2 5.5-2 8.5-1z"/></symbol></svg>
 <header>
 <div class="wrap">
-<a class="brand" href="../index.html#inicio">RUBEN LEAL</a>
+<a class="brand marca" href="../index.html#inicio"><img src="../favicon.svg" alt="" width="30" height="30"><span>informatica<b>.uy</b></span></a>
 <nav aria-label="Páginas">
 <a data-nav="inicio" href="../index.html#inicio">Inicio</a>
 <a data-nav="servicios" href="../index.html#servicios">Servicios</a>
@@ -231,7 +269,12 @@ article p,article li,article blockquote{max-width:82ch}
 <main>
 <article class="wrap demo">
 <p class="migas"><a href="../index.html#recursos">← Recursos</a></p>
-<header class="cab" style="--c1:#06403F;--c2:#0E7C7B;--ac:#E4572E;--kc:#FFB59E"><div class="cab-txt"><p class="cab-kicker">RECURSOS · CIBERSEGURIDAD</p><h1 class="cab-h">Taller de ciberseguridad: cómo te llevan a una página falsa</h1><p class="cab-lead">Seis ejercicios para aprender a reconocer páginas truchas, mensajes trampa, QR sospechosos y anuncios engañosos, pensados para el sector de turismo y hotelería pero útiles para cualquiera. Empieza con una demostración: una página de un banco inventado que muestra en vivo lo que se le roba a quien escribe su clave.</p></div><div class="cab-ilus" aria-hidden="true"><span class="ficha" style="--tc:#0E7C7B;--tk:#E4572E;--i:0"><svg class="vi" aria-hidden="true"><use href="#vi-sec"/></svg></span></div></header>
+<header class="cab" style="--c1:#06403F;--c2:#0E7C7B;--ac:#E4572E;--kc:#FFB59E"><div class="cab-txt"><p class="cab-kicker">RECURSOS · CIBERSEGURIDAD</p><h1 class="cab-h">Taller de ciberseguridad: cómo te llevan a una página falsa</h1><p class="cab-lead">Seis ejercicios para aprender a reconocer páginas truchas, mensajes trampa, QR sospechosos y anuncios engañosos, pensados para el sector de turismo y hotelería pero útiles para cualquiera. Empieza con una demostración: una página de un banco inventado que muestra en vivo lo que se le roba a quien escribe su clave. Al final, cómo reconocer las estafas que usan inteligencia artificial.</p></div><div class="cab-ilus" aria-hidden="true"><span class="ficha" style="--tc:#0E7C7B;--tk:#E4572E;--i:0"><svg class="vi" aria-hidden="true"><use href="#vi-sec"/></svg></span></div></header>
+<ul class="logros"><li class="logros-tit">Al terminar el taller vas a poder:</li>
+<li><svg aria-hidden="true"><use href="#ia-ok"/></svg><span><b>Reconocer</b> una página falsa aunque copie el diseño de la original.</span></li>
+<li><svg aria-hidden="true"><use href="#ia-ok"/></svg><span><b>Detectar</b> mensajes trampa, QR sospechosos y anuncios engañosos.</span></li>
+<li><svg aria-hidden="true"><use href="#ia-ok"/></svg><span><b>Frenar</b> una estafa que usa voces, videos o textos hechos con inteligencia artificial.</span></li>
+<li><svg aria-hidden="true"><use href="#ia-ok"/></svg><span><b>Verificar</b> por otro canal antes de pagar o dar un dato.</span></li></ul>
 <h2 style="margin:34px 0 6px;color:var(--navy)">1. Probá la demostración</h2>
 <p style="margin:0 0 4px">Escribí un documento y una contraseña <strong>inventados</strong> y mirá la franja oscura de abajo. <strong>eRÍO no existe</strong>: nada se envía ni se guarda, todo pasa dentro de la pantalla.</p>
 <div class="marco"><iframe src="../Er%C3%ADo-index.html" title="Demostración: una página falsa de un banco inventado que lee lo que tipeás" loading="lazy" style="height:900px"></iframe></div>
@@ -240,6 +283,22 @@ article p,article li,article blockquote{max-width:82ch}
 <p style="margin:0 0 4px">La guía completa, con las consignas de los seis ejercicios.</p>
 <div class="marco"><iframe src="https://docs.google.com/document/d/18oUoPihBWRyyGot-BQLaOV1mMKH3OZB7T4nHkKHOt1A/preview" title="Guía del taller de ciberseguridad" loading="lazy"></iframe></div>
 <p class="nota">¿No se ve bien en tu pantalla? <a href="https://docs.google.com/document/d/18oUoPihBWRyyGot-BQLaOV1mMKH3OZB7T4nHkKHOt1A/mobilebasic" target="_blank" rel="noopener noreferrer">Abrir la guía en una pestaña nueva</a>. ¿Querés revisar tus propios hábitos? Hacé el <a href="../autodiagnostico/">autodiagnóstico de ciberseguridad</a>.</p>
+<h2 style="margin:34px 0 6px;color:var(--navy)">3. Las estafas ahora usan inteligencia artificial</h2>
+<p style="margin:0 0 4px">Con herramientas de IA se puede copiar una voz, armar un video o escribir un mensaje sin un solo error. Las señales de siempre ya no alcanzan: lo que sigue funcionando es <strong>frenar y verificar por otro canal</strong>.</p>
+<div class="riesgos">
+<div class="riesgo" style="--rc:#E4572E"><svg aria-hidden="true"><use href="#ia-voz"/></svg><h3>Voces copiadas</h3><p>Con unos segundos de audio sacados de redes o de un audio de WhatsApp se puede imitar la voz de alguien. El caso típico: un familiar en apuros que pide plata ya.</p></div>
+<div class="riesgo" style="--rc:#0E7C7B"><svg aria-hidden="true"><use href="#ia-video"/></svg><h3>Videos falsos</h3><p>Personas conocidas «recomendando» una inversión, un sorteo o un producto milagroso. La imagen puede parecer real; la oferta, no.</p></div>
+<div class="riesgo" style="--rc:#6A4FB3"><svg aria-hidden="true"><use href="#ia-mail"/></svg><h3>Mensajes sin faltas</h3><p>Antes los correos falsos se notaban por la mala redacción. Ahora llegan bien escritos, con el logo correcto y hasta con tu nombre.</p></div>
+</div>
+<h3 style="margin:22px 0 4px;color:var(--navy)">Qué hacer</h3>
+<ol class="pasos-ia">
+<li><span><b>Frená.</b> El apuro es la señal más clara: «ahora», «urgente», «se vence hoy».</span></li>
+<li><span><b>Cortá y verificá por otro canal.</b> Llamá vos al número de siempre o escribí por otra vía.</span></li>
+<li><span><b>Acordá una palabra clave</b> con tu familia para confirmar emergencias.</span></li>
+<li><span><b>No pases códigos, claves ni datos de tarjeta</b> por mensaje o llamada, aunque te los pida alguien conocido.</span></li>
+<li><span><b>Desconfiá de las ganancias fáciles,</b> aunque las recomiende una cara conocida en un video.</span></li>
+</ol>
+<p class="nota">¿Usás herramientas de IA en tu trabajo? Mirá la guía <a href="../ia-sin-regalar-datos/">Usar IA sin regalar tus datos</a>.</p>
 <div class="pager"><a class="btn" href="../index.html#recursos">← Volver a Recursos</a><a class="btn solid" href="../index.html#ciberseguridad">Talleres para tu grupo</a></div>
 </article>
 </main>
